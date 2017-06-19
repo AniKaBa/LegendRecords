@@ -1,0 +1,5 @@
+name: LegendRecords
+main: tw.org.anikaba.legendrecords.LegendRecords
+version: 2.5.0
+description: 傳奇事記 ( Legend Records )
+commands:
