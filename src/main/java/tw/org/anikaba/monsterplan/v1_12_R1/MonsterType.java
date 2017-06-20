@@ -57,19 +57,19 @@ public enum MonsterType {
     殭屍("殭屍", 54, Monster.PlanZombie.class),
     殭屍馬("殭屍馬", 29, Monster.PlanZombieHorse.class),
     殭屍村民("殭屍村民", 27, Monster.PlanZombieVillager.class),
-    人類("人類", 54, Monster.PlanHuman.class);
+    人類("人類", 1, Monster.PlanHuman.class);
 
     private String name;
     private int id;
-    private Class<? extends PlanMonster> c;
+    private Class<? extends MonsterPlan> c;
 
-    MonsterType(String n, int d, Class<? extends PlanMonster> c) {
+    MonsterType(String n, int d, Class<? extends MonsterPlan> c) {
         this.name = n;
         this.id = d;
         this.c = c;
     }
 
-    public PlanMonster getMonster (World w, PlanConfig pc) {
+    public MonsterPlan getMonster (World w, PlanConfig pc) {
         switch (name) {
             case "木頭人":
                 return new Monster.PlanArmorStand(w, pc);

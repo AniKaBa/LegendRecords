@@ -4,9 +4,9 @@ import net.minecraft.server.v1_12_R1.EntityMonster;
 import net.minecraft.server.v1_12_R1.World;
 import tw.org.anikaba.monsterplan.PlanConfig;
 
-abstract class PlanMonster extends EntityMonster {
+abstract class MonsterPlan extends EntityMonster {
 
-    PlanMonster(World world, PlanConfig pc) {
+    MonsterPlan(World world, PlanConfig pc) {
         super(world);
     }
 }
