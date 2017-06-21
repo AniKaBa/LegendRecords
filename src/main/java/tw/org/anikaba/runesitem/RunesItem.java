@@ -1,5 +1,17 @@
 package tw.org.anikaba.runesitem;
 
+import ninja.leaping.configurate.ConfigurationOptions;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
+import org.bukkit.inventory.ItemStack;
+import tw.org.anikaba.legend.item.Runes;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RunesItem extends RunesDevice implements Runes {
 
     private ConfigurationLoader<CommentedConfigurationNode> loader;

@@ -1,6 +1,23 @@
 package tw.org.anikaba.runesitem;
 
-public class RunesDevice {
+import org.bukkit.Color;
+import org.bukkit.DyeColor;
+import org.bukkit.FireworkEffect;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.PotionEffect;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class RunesDevice {
+
     ItemStack deserialize(HashMap<String, Object> m){
         Map<String, Object> c = (Map) m.clone();
         c.put("meta", null);
