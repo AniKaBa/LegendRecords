@@ -40,6 +40,7 @@ public class PlanConfig {
                 node.getNode("基本屬性", "防禦補正").setValue(0.0D);
                 node.getNode("基本屬性", "幸運").setValue(0.0D);
                 node.getNode("基本屬性", "經驗值").setValue(1.0D);
+                node.getNode("基本屬性", "飛行速度").setValue(0.4D);
                 List<String> l = new ArrayList<>();
                 l.add("人類");
                 l.add("雞");
@@ -115,6 +116,7 @@ public class PlanConfig {
         l.add(node.getNode("基本屬性", "追蹤範圍").getFloat());
         l.add(node.getNode("基本屬性", "防禦補正").getFloat());
         l.add(node.getNode("基本屬性", "經驗值").getFloat());
+        l.add(node.getNode("基本屬性", "飛行速度").getFloat());
         return l;
     }
 

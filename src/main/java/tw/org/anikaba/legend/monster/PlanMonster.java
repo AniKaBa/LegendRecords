@@ -23,5 +23,5 @@ public interface PlanMonster {
 
     public PlanType getType();
 
-    public String getCod();
+    public String getId();
 }
