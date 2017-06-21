@@ -24,12 +24,6 @@ abstract class MonsterPlan extends EntityMonster implements PlanMonster {
     }
 
     @Override
-    protected void r() {
-        this.goalSelector.a(0, new PathfinderGoalFloat(this));
-        this.goalSelector.a(1, new PathfinderGoalRandomLookaround(this));
-    }
-
-    @Override
     public void a(float f, float f1, float f2) {
         if (this.passengers.size() != 0) {
             EntityLiving passenger = (EntityLiving) this.passengers.get(0);
@@ -67,7 +61,7 @@ abstract class MonsterPlan extends EntityMonster implements PlanMonster {
         }
         super.a(f, f1, f2);
     }
-
+/*
     @Override
     public void a(EntityLiving e, float v) {
         EntitySnowball entitysnowball = new EntitySnowball(this.world, this);
@@ -80,14 +74,7 @@ abstract class MonsterPlan extends EntityMonster implements PlanMonster {
         this.a(SoundEffects.gs, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.world.addEntity(entitysnowball);
     }
-
-    @Override
-    public void p(boolean b) {
-    }
-
-    void setExp(int i) {
-        this.b_ = i;
-    }
+*/
 
     @Override
     public float getAtkDam() {
@@ -112,11 +99,6 @@ abstract class MonsterPlan extends EntityMonster implements PlanMonster {
     @Override
     public List<String> getDrops() {
         return this.l;
-    }
-
-    @Override
-    public PlanType getType() {
-        return PlanType.valueOf(this.type);
     }
 
     @Override

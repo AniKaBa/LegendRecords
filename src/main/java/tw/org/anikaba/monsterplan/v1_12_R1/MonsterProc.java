@@ -11,6 +11,7 @@ class MonsterProc {
         mp.setCustomName(pc.getName()); // 基本資料-名稱
         a(mp, pc.getAttlist()); // 基本屬性
         o(mp, pc.getTarget()); // 攻擊對象
+        s(mp, pc.getSkill(), f(mp, pc.getFeature())); // 行為、攻擊模式
         mp.P = 1.0f; // 走路可走1格高低差
     }
 
@@ -44,8 +45,8 @@ class MonsterProc {
     }
 
     private int f(MonsterPlan p, List<String> l) {
-        if (l == null) return 2;
-        final int[] j = {2};
+        if (l == null) return 0;
+        final int[] j = {0};
         l.forEach(s -> {
             switch (s) {
                 case "瞪你":
@@ -56,6 +57,16 @@ class MonsterProc {
                 case "遊走":
                     p.goalSelector.a(j[0], new PathfinderGoalRandomStrollLand(p, 1.0D));
                     j[0]++;
+                    break;
+                case "游泳":
+                    p.goalSelector.a(j[0], new PathfinderGoalFloat(p));
+                    j[0]++;
+                    break;
+                case "亂看":
+                    p.goalSelector.a(j[0], new PathfinderGoalRandomLookaround(p));
+                    j[0]++;
+                    break;
+                default:
                     break;
             }
         });
@@ -72,17 +83,17 @@ class MonsterProc {
                     j[0]++;
                     break;
                 case "遠程（雪球）":
-                    p.goalSelector.a(j[0], new PathfinderGoalArrowAttack(p, 1.25D, 20, 10.0F));
-                    j[0]++;
+                    // p.goalSelector.a(j[0], new PathfinderGoalArrowAttack(p, 1.25D, 20, 10.0F));
+                    // j[0]++;
                     break;
                 case "遠程（火球）":
-                    p.goalSelector.a(j[0], new GoalPlanFireball(p));
-                    j[0]++;
+                    // p.goalSelector.a(j[0], new GoalPlanFireball(p));
+                    // j[0]++;
                     break;
             }
         });
     }
-
+/*
     public static void s(String s, PlanMonster m) {
         EntityLiving e;
         switch (s) {
@@ -152,7 +163,7 @@ class MonsterProc {
         e.setPositionRotation(m.locX, m.locY, m.locZ, m.yaw, 0.0F);
         m.world.addEntity(e);
         m.startRiding(e);
-    }
+    }*/
 
     private void o(MonsterPlan p, List<String> l) {
         if (l == null) return;

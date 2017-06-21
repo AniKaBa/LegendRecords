@@ -1,6 +1,10 @@
 package tw.org.anikaba.legend.monster;
 
 
+import org.bukkit.Location;
+
+import java.util.List;
+
 public interface PlanMonster {
 
     void doSpawn(Location l);
@@ -20,8 +24,6 @@ public interface PlanMonster {
     public int getExpReward();
 
     public List<String> getDrops();
-
-    public PlanType getType();
 
     public String getId();
 }
