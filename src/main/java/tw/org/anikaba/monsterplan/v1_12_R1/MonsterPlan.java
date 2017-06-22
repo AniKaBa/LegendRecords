@@ -1,31 +1,53 @@
 package tw.org.anikaba.monsterplan.v1_12_R1;
 
-import net.minecraft.server.v1_12_R1.EntityMonster;
-import net.minecraft.server.v1_12_R1.World;
+import net.minecraft.server.v1_12_R1.*;
 import tw.org.anikaba.legend.monster.PlanMonster;
 import tw.org.anikaba.monsterplan.PlanConfig;
-
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.UUID;
 
-abstract class MonsterPlan extends EntityMonster implements PlanMonster {
+public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
 
-    private String id;
+    private String id; // 怪物編號
+    private UUID ownerUUID; // 主人
 
     MonsterPlan(World world, PlanConfig pc) {
         super(world);
-        new MonsterProc(this, pc);
+        new MonsterProc(this, pc); // 設定套用
         this.id = pc.getId();
-
-        this.steed = pc.getSteed();
     }
-
+    // 設定死掉落的經驗值
     void setDropExp(int i) {
         this.b_ = i;
+    }
+    // 取得主人UUID
+    public UUID getOwnerUUID() {
+        return this.ownerUUID;
+    }
+    // 設定主人
+    public void setOwnerUUID(UUID u) {
+        this.ownerUUID = u;
+    }
+    // 取得主人EntityLiving
+    public EntityLiving getOwner() {
+        try {
+            UUID uuid = this.getOwnerUUID();
+
+            return uuid == null ? null : this.world.b(uuid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    // 檢查是否坐下
+    public boolean isSitting() {
+        return false;
     }
 
     @Override
     public void a(float f, float f1, float f2) {
-        if (this.passengers.size() != 0) {
+        if (this.passengers.size() != 0 && this.passengers.get(0) instanceof EntityPlayer) {
             EntityLiving passenger = (EntityLiving) this.passengers.get(0);
             this.yaw = passenger.yaw;
             this.lastYaw = this.yaw;
@@ -33,7 +55,6 @@ abstract class MonsterPlan extends EntityMonster implements PlanMonster {
             setYawPitch(this.yaw, this.pitch);
             this.aN = this.yaw;
             this.aP = this.aN;
-
             f = passenger.be;
             f1 = passenger.bh;
             f2 = passenger.bg;

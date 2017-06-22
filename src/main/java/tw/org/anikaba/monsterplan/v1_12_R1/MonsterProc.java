@@ -2,6 +2,7 @@ package tw.org.anikaba.monsterplan.v1_12_R1;
 
 import net.minecraft.server.v1_12_R1.*;
 import tw.org.anikaba.monsterplan.PlanConfig;
+import tw.org.anikaba.monsterplan.v1_12_R1.goal.FollowOwner;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ class MonsterProc {
         a(mp, pc.getAttlist()); // 基本屬性
         o(mp, pc.getTarget()); // 攻擊對象
         s(mp, pc.getSkill(), f(mp, pc.getFeature())); // 行為、攻擊模式
+        mp.k(0.1F);
         mp.P = 1.0f; // 走路可走1格高低差
     }
 
@@ -64,6 +66,10 @@ class MonsterProc {
                     break;
                 case "亂看":
                     p.goalSelector.a(j[0], new PathfinderGoalRandomLookaround(p));
+                    j[0]++;
+                    break;
+                case "跟隨":
+                    p.goalSelector.a(j[0], new FollowOwner(p, 1.0D, 10.0F, 2.0F));
                     j[0]++;
                     break;
                 default:
