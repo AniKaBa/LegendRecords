@@ -25,5 +25,5 @@ public interface PlanMonster {
 
     public List<String> getDrops();
 
-    public String getId();
+    public String getMpId();
 }

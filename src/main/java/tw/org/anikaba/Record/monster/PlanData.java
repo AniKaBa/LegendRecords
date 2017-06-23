@@ -5,7 +5,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Monster;
 import org.bukkit.plugin.Plugin;
-import tw.org.anikaba.legend.monster.Plan;
+import tw.org.anikaba.legend.monster.PlanDevice;
 import tw.org.anikaba.legend.monster.PlanMonster;
 import tw.org.anikaba.monsterplan.PlanConfig;
 
@@ -19,7 +19,7 @@ public class PlanData {
     private Map<String, PlanConfig> pcs = new HashMap<>(); // 怪物資料庫
     private Map<String, String> tom = new HashMap<>(); // 怪物出生點資料庫
     private Boolean k; // 判斷是否使用 K-item
-    private Plan p; // 版本載入器
+    private PlanDevice p; // 版本載入器
 
     public PlanData() {
         switch (Bukkit.getBukkitVersion()) {
@@ -54,50 +54,50 @@ public class PlanData {
                 pc.getBorn().forEach(s1 -> tom.put(s1, pc.getId()));
             }
         });
-        Plugin p = Bukkit.getPluginManager().getPlugin("Kycraft");
-        if (p == null) this.k = false; // Kycraft 啟動判斷
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("Kycraft");
+        if (plugin != null) k = false; // Kycraft 啟動判斷
     }
 
-    public static Boolean isCannibal(Monster m) {
+    public Boolean isCannibal(Monster m) {
         return p.isCannibal(m);
     }
 
-    public static PlanMonster getMonster(Monster m) {
-        return isCannibal(m) ? c.getMonster(m): null;
+    public PlanMonster getPlanMonster(Monster m) {
+        return isCannibal(m) ? p.getMonster(m): null;
     }
 
-    public static PlanMonster spawnMonster(Location l, String id) {
-        PlanMonster cm = c.getMonster(l, getPlanConfig(id));
+    public PlanMonster spawnMonster(Location l, String id) {
+        PlanMonster cm = p.getMonster(l, getPlanConfig(id));
         cm.doSpawn(l);
         return cm;
     }
 
-    public static PlanConfig getPlanConfig(String cod) {
-        return .getOrDefault(cod, null);
+    public PlanConfig getPlanConfig(String cod) {
+        return pcs.getOrDefault(cod, null);
     }
 
-    public static String getChunkName(Chunk chunk) {
+    public String getChunkName(Chunk chunk) {
         return chunk.getWorld().getName() + ":" + chunk.getX() +
                 ":" + chunk.getZ();
     }
 
-    public static Boolean isArea(Chunk chunk) {
+    public Boolean isArea(Chunk chunk) {
         return t.containsKey(getChunkName(chunk));
     }
 
-    public static Boolean isArea(String name) {
+    public Boolean isArea(String name) {
         return t.containsKey(name);
     }
 
-    public static String getCod(Chunk chunk) {
+    public String getCod(Chunk chunk) {
         return t.getOrDefault(getChunkName(chunk), null);
     }
 
-    public static String getCod(String name) {
+    public String getCod(String name) {
         return t.getOrDefault(name, null);
     }
 
-    public static Boolean isKycraft() {
-        return k;
+    public Boolean isKycraft() {
+        return this.k;
     }
 }

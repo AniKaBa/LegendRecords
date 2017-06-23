@@ -1,6 +1,9 @@
 package tw.org.anikaba.monsterplan.v1_12_R1;
 
 import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import tw.org.anikaba.legend.monster.Plan;
 import tw.org.anikaba.legend.monster.PlanMonster;
 import tw.org.anikaba.monsterplan.PlanConfig;
 import java.lang.reflect.Field;
@@ -42,7 +45,7 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
     }
     // 檢查是否坐下
     public boolean isSitting() {
-        return false;
+        return false; // 有空加入動作
     }
 
     @Override
@@ -82,8 +85,7 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
         }
         super.a(f, f1, f2);
     }
-/*
-    @Override
+
     public void a(EntityLiving e, float v) {
         EntitySnowball entitysnowball = new EntitySnowball(this.world, this);
         double d0 = e.locY + (double) e.getHeadHeight() - 1.100000023841858D;
@@ -95,39 +97,31 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
         this.a(SoundEffects.gs, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.world.addEntity(entitysnowball);
     }
-*/
-
-    @Override
+    // 回傳傷害
     public float getAtkDam() {
-        return this.d;
+        return Plan.getPlanConfig(this.id).getAttlist().get(2);
     }
-
-    @Override
+    // 回傳攻速
     public float getAtkSpe() {
-        return this.as;
+        return Plan.getPlanConfig(this.id).getAttlist().get(3);
     }
-
-    @Override
+    // 回傳移動速度
     public float getMovSpe() {
-        return this.ms;
+        return Plan.getPlanConfig(this.id).getAttlist().get(5);
     }
-
-    @Override
+    // 回傳防禦
     public float getDef() {
-        return this.de;
+        return Plan.getPlanConfig(this.id).getAttlist().get(6);
     }
-
-    @Override
+    // 回傳道具掉落
     public List<String> getDrops() {
-        return this.l;
+        return Plan.getPlanConfig(this.id).getDrop();
     }
-
-    @Override
-    public String getId() {
+    // 回傳怪物編號
+    public String getMpId() {
         return this.id;
     }
 
-    @Override
     public void doSpawn(Location l) {
         World world = ((CraftWorld) l.getWorld()).getHandle();
         this.setLocation(l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch());

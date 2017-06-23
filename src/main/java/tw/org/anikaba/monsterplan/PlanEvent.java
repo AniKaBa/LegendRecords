@@ -1,12 +1,17 @@
 package tw.org.anikaba.monsterplan;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import tw.org.anikaba.legend.monster.Plan;
+
+import java.util.Random;
 
 public class PlanEvent implements Listener {
 
@@ -20,7 +25,7 @@ public class PlanEvent implements Listener {
                 LivingEntity) {
             if (Plan.isCannibal((Monster) e.getEntity().getShooter())) {
                 Random r = new Random();
-                ((LivingEntity)e.getHitEntity()).damage(r.nextInt((int) (Plan.getMonster(
+                ((LivingEntity)e.getHitEntity()).damage(r.nextInt((int) (Plan.getPlanMonster(
                         (Monster) e.getEntity()).getAtkDam() * 100.0F)) / 100.0F);
             }
         }

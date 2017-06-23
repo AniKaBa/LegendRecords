@@ -4,7 +4,7 @@ import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import org.bukkit.inventory.ItemStack;
+import tw.org.anikaba.legend.monster.Plan;
 
 import java.io.File;
 import java.io.IOException;
@@ -142,40 +142,24 @@ public class PlanConfig {
         }
         return "無";
     }
-/*
+
     public List<String> getDrop() {
         List<String> l = new ArrayList<>();
         Map<String, Double> m = (Map<String, Double>) node.getNode("其他設定", "掉落寶物").getValue();
-        if (m != null && plan.getK()) {
+        if (m != null && Plan.isKycraft()) {
             m.forEach((s, f) -> l.add(s));
         }
         return l;
     }
 
-    public List<ItemStack> getDrops() {
-        List<ItemStack> l = new ArrayList<>();
-        Map<String, Double> m = (Map<String, Double>) node.getNode("其他設定", "掉落寶物").getValue();
-        if (m != null && plan.getK()) {
-            Random r = new Random();
-            m.forEach((s, f) ->{
-                if (r.nextDouble() < f) {
-                    l.add(GlobalVar.GetItemByKey(s));
-                }
-            });
-        }
+    public List<String> getEquip() {
+        List<String> l = new ArrayList<>();
+         l.add(node.getNode("武器裝備", "頭盔").getString());
+            l.add(node.getNode("武器裝備", "胸甲").getString());
+            l.add(node.getNode("武器裝備", "護腿").getString());
+            l.add(node.getNode("武器裝備", "靴子").getString());
+            l.add(node.getNode("武器裝備", "右手").getString());
+            l.add(node.getNode("武器裝備", "左手").getString());
         return l;
     }
-
-    public List<ItemStack> getEquip() {
-        List<ItemStack> l = new ArrayList<>();
-        if (plan.getK()) {
-            l.add(GlobalVar.GetItemByKey(node.getNode("武器裝備", "頭盔").getString()));
-            l.add(GlobalVar.GetItemByKey(node.getNode("武器裝備", "胸甲").getString()));
-            l.add(GlobalVar.GetItemByKey(node.getNode("武器裝備", "護腿").getString()));
-            l.add(GlobalVar.GetItemByKey(node.getNode("武器裝備", "靴子").getString()));
-            l.add(GlobalVar.GetItemByKey(node.getNode("武器裝備", "右手").getString()));
-            l.add(GlobalVar.GetItemByKey(node.getNode("武器裝備", "左手").getString()));
-        }
-        return l;
-    }*/
 }
