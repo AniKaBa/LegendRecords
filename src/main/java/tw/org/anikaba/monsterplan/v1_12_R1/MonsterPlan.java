@@ -1,8 +1,10 @@
 package tw.org.anikaba.monsterplan.v1_12_R1;
 
+import com.kunyihua.crafte.GlobalVar;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import tw.org.anikaba.legend.monster.Plan;
 import tw.org.anikaba.legend.monster.PlanMonster;
 import tw.org.anikaba.monsterplan.PlanConfig;
@@ -36,7 +38,6 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
     public EntityLiving getOwner() {
         try {
             UUID uuid = this.getOwnerUUID();
-
             return uuid == null ? null : this.world.b(uuid);
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,7 +51,7 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
 
     @Override
     public void a(float f, float f1, float f2) {
-        if (this.passengers.size() != 0 && this.passengers.get(0) instanceof EntityPlayer) {
+        if (this.passengers.size() != 0 && this.passengers.get(0) == getOwner()) {
             EntityLiving passenger = (EntityLiving) this.passengers.get(0);
             this.yaw = passenger.yaw;
             this.lastYaw = this.yaw;
@@ -62,9 +63,9 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
             f1 = passenger.bh;
             f2 = passenger.bg;
             if(f2 <= 0.0F) {
-                f2 *= 0.25F;// Make backwards slower
+                f2 *= 0.25F;
             }
-            Field jump = null; //Jumping
+            Field jump = null;
             try {
                 jump = EntityLiving.class.getDeclaredField("bd");
             } catch (Exception e1) {
@@ -72,11 +73,11 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
             }
             jump.setAccessible(true);
 
-            if (jump != null && this.onGround) {     // Wouldn't want it jumping while on the ground would we?
+            if (jump != null && this.onGround) {
                 try {
                     if (jump.getBoolean(passenger)) {
-                        double jumpHeight = 0.5D;     //Here you can set the jumpHeight
-                        this.motY = jumpHeight;        // Used all the time in NMS for entity jumping
+                        double jumpHeight = 0.5D;
+                        this.motY = jumpHeight;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -123,23 +124,96 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
     }
 
     public void doSpawn(Location l) {
+        this.uniqueID = UUID.randomUUID();
+        PlanConfig pc = Plan.getPlanConfig(id);
         World world = ((CraftWorld) l.getWorld()).getHandle();
         this.setLocation(l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch());
         world.addEntity(this);
-        // MonsterIntell.s(this.steed, this);
-        if (CannibalPlan.getPlugin().getPlan().get(this.id).getEquip().size() != 0) {
-            this.setSlot(EnumItemSlot.HEAD, CraftItemStack.asNMSCopy(CannibalPlan
-                    .getPlugin().getPlan().get(this.id).getEquip().get(0)));
-            this.setSlot(EnumItemSlot.CHEST, CraftItemStack.asNMSCopy(CannibalPlan
-                    .getPlugin().getPlan().get(this.id).getEquip().get(1)));
-            this.setSlot(EnumItemSlot.LEGS, CraftItemStack.asNMSCopy(CannibalPlan
-                    .getPlugin().getPlan().get(this.id).getEquip().get(2)));
-            this.setSlot(EnumItemSlot.FEET, CraftItemStack.asNMSCopy(CannibalPlan
-                    .getPlugin().getPlan().get(this.id).getEquip().get(3)));
-            this.setSlot(EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(CannibalPlan
-                    .getPlugin().getPlan().get(this.id).getEquip().get(4)));
-            this.setSlot(EnumItemSlot.OFFHAND, CraftItemStack.asNMSCopy(CannibalPlan
-                    .getPlugin().getPlan().get(this.id).getEquip().get(5)));
+        if (Plan.getPlanConfig(this.id).getEquip().size() != 0 && Plan.isKycraft()) {
+            this.setSlot(EnumItemSlot.HEAD, CraftItemStack.asNMSCopy(
+                    GlobalVar.GetItemByKey(pc.getEquip().get(0))));
+            this.setSlot(EnumItemSlot.CHEST, CraftItemStack.asNMSCopy(
+                    GlobalVar.GetItemByKey(pc.getEquip().get(1))));
+            this.setSlot(EnumItemSlot.LEGS, CraftItemStack.asNMSCopy(
+                    GlobalVar.GetItemByKey(pc.getEquip().get(2))));
+            this.setSlot(EnumItemSlot.FEET, CraftItemStack.asNMSCopy(
+                    GlobalVar.GetItemByKey(pc.getEquip().get(3))));
+            this.setSlot(EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(
+                    GlobalVar.GetItemByKey(pc.getEquip().get(4))));
+            this.setSlot(EnumItemSlot.OFFHAND, CraftItemStack.asNMSCopy(
+                    GlobalVar.GetItemByKey(pc.getEquip().get(5))));
         }
+        s(pc.getSteed());
+    }
+    // 怪物座騎
+    private void s(String s) {
+        EntityLiving e;
+        switch (s) {
+            case "洞穴蜘蛛":
+                e = new EntityCaveSpider(this.world);
+                break;
+            case "雞":
+                e = new EntityChicken(this.world);
+                break;
+            case "牛":
+                e = new EntityCow(this.world);
+                break;
+            case "驢":
+                e = new EntityHorseDonkey(this.world);
+                break;
+            case "終界蟎":
+                e = new EntityEndermite(this.world);
+                break;
+            case "馬":
+                e = new EntityHorse(this.world);
+                break;
+            case "鐵魔像":
+                e = new EntityIronGolem(this.world);
+                break;
+            case "羊駝":
+                e = new EntityLlama(this.world);
+                break;
+            case "騾":
+                e = new EntityHorseMule(this.world);
+                break;
+            case "蘑菇牛":
+                e = new EntityMushroomCow(this.world);
+                break;
+            case "野貓":
+                e = new EntityOcelot(this.world);
+                break;
+            case "豬":
+                e = new EntityPig(this.world);
+                break;
+            case "北極熊":
+                e = new EntityPolarBear(this.world);
+                break;
+            case "綿羊":
+                e = new EntitySheep(this.world);
+                break;
+            case "蠹魚":
+                e = new EntitySilverfish(this.world);
+                break;
+            case "骷髏":
+                e = new EntitySkeleton(this.world);
+                break;
+            case "骷髏馬":
+                e = new EntityHorseSkeleton(this.world);
+                break;
+            case "蜘蛛":
+                e = new EntitySpider(this.world);
+                break;
+            case "狼":
+                e = new EntityWolf(this.world);
+                break;
+            case "殭屍馬":
+                e = new EntityHorseZombie(this.world);
+                break;
+            default:
+                return;
+        }
+        e.setPositionRotation(this.locX, this.locY, this.locZ, this.yaw, 0.0F);
+        this.world.addEntity(e);
+        this.startRiding(e);
     }
 }

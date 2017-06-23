@@ -154,12 +154,12 @@ public class PlanConfig {
 
     public List<String> getEquip() {
         List<String> l = new ArrayList<>();
-         l.add(node.getNode("武器裝備", "頭盔").getString());
-            l.add(node.getNode("武器裝備", "胸甲").getString());
-            l.add(node.getNode("武器裝備", "護腿").getString());
-            l.add(node.getNode("武器裝備", "靴子").getString());
-            l.add(node.getNode("武器裝備", "右手").getString());
-            l.add(node.getNode("武器裝備", "左手").getString());
+        l.add(node.getNode("武器裝備", "頭盔").getString());
+        l.add(node.getNode("武器裝備", "胸甲").getString());
+        l.add(node.getNode("武器裝備", "護腿").getString());
+        l.add(node.getNode("武器裝備", "靴子").getString());
+        l.add(node.getNode("武器裝備", "右手").getString());
+        l.add(node.getNode("武器裝備", "左手").getString());
         return l;
     }
 }

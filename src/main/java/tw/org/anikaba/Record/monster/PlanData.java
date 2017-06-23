@@ -82,19 +82,19 @@ public class PlanData {
     }
 
     public Boolean isArea(Chunk chunk) {
-        return t.containsKey(getChunkName(chunk));
+        return tom.containsKey(getChunkName(chunk));
     }
 
     public Boolean isArea(String name) {
-        return t.containsKey(name);
+        return tom.containsKey(name);
     }
 
     public String getCod(Chunk chunk) {
-        return t.getOrDefault(getChunkName(chunk), null);
+        return tom.getOrDefault(getChunkName(chunk), null);
     }
 
     public String getCod(String name) {
-        return t.getOrDefault(name, null);
+        return tom.getOrDefault(name, null);
     }
 
     public Boolean isKycraft() {
