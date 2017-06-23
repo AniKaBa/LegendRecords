@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
+public abstract class MonsterPlan extends EntityMonster implements PlanMonster, IRangedEntity {
 
     private String id; // 怪物編號
     private UUID ownerUUID; // 主人
@@ -86,8 +86,18 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
         }
         super.a(f, f1, f2);
     }
+    // 遠程攻擊
+    public void a(EntityLiving e, float f) {
+        
+        EntityArrow entityarrow = this.a(f);
+        double d0 = e.locX - this.locX;
+        double d1 = e.getBoundingBox().b + (double) (e.length / 3.0F) - entityarrow.locY;
+        double d2 = e.locZ - this.locZ;
+        double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
+        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.world.getDifficulty().a() * 4));
+        this.a(SoundEffects.gW, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.world.addEntity(entityarrow);
 
-    public void a(EntityLiving e, float v) {
         EntitySnowball entitysnowball = new EntitySnowball(this.world, this);
         double d0 = e.locY + (double) e.getHeadHeight() - 1.100000023841858D;
         double d1 = e.locX - this.locX;
@@ -98,6 +108,18 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster {
         this.a(SoundEffects.gs, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.world.addEntity(entitysnowball);
     }
+
+    private EntityArrow a(float f) {
+        EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.world, this);
+        entitytippedarrow.a(this, f);
+        return entitytippedarrow;
+    }
+
+    @Override
+    public void p(boolean b) {
+
+    }
+
     // 回傳傷害
     public float getAtkDam() {
         return Plan.getPlanConfig(this.id).getAttlist().get(2);

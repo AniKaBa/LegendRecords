@@ -7,7 +7,10 @@ import org.bukkit.entity.Monster;
 import org.bukkit.plugin.Plugin;
 import tw.org.anikaba.legend.monster.PlanDevice;
 import tw.org.anikaba.legend.monster.PlanMonster;
+import tw.org.anikaba.legendrecords.LegendRecords;
+import tw.org.anikaba.monsterplan.PlanCommand;
 import tw.org.anikaba.monsterplan.PlanConfig;
+import tw.org.anikaba.monsterplan.PlanEvent;
 
 import java.io.File;
 import java.util.Arrays;
@@ -22,6 +25,9 @@ public class PlanData {
     private PlanDevice p; // 版本載入器
 
     public PlanData() {
+        LegendRecords p = (LegendRecords) Bukkit.getPluginManager().getPlugin("LegendRecords");
+        p.getCommand("lr").setExecutor(new PlanCommand());
+        p.getServer().getPluginManager().registerEvents(new PlanEvent(), p);
         switch (Bukkit.getBukkitVersion()) {
             case "1.12-R0.1-SNAPSHOT":
                 this.p = new tw.org.anikaba.monsterplan.v1_12_R1.MonsterDevice();

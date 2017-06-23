@@ -1,6 +1,8 @@
 package tw.org.anikaba.legend.monster;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.entity.Monster;
 import tw.org.anikaba.Record.monster.PlanData;
 import tw.org.anikaba.legendrecords.LegendRecords;
@@ -27,5 +29,29 @@ public class Plan {
 
     public static PlanMonster getPlanMonster(Monster m) {
         return getPlanData().getPlanMonster(m);
+    }
+
+    public static Boolean isArea(Chunk c) {
+        return getPlanData().isArea(c);
+    }
+
+    public static Boolean isArea(String s) {
+        return getPlanData().isArea(s);
+    }
+
+    public static String getCod(Chunk c) {
+        return getPlanData().getCod(c);
+    }
+
+    public static String getCod(String s) {
+        return getPlanData().getCod(s);
+    }
+
+    public static PlanMonster spawnMonster(Location l, String id) {
+        return getPlanData().spawnMonster(l, id);
+    }
+
+    public static String getChunkName(Chunk c) {
+        return getPlanData().getChunkName(c);
     }
 }

@@ -89,8 +89,8 @@ class MonsterProc {
                     j[0]++;
                     break;
                 case "遠程（雪球）":
-                    // p.goalSelector.a(j[0], new PathfinderGoalArrowAttack(p, 1.25D, 20, 10.0F));
-                    // j[0]++;
+                    p.goalSelector.a(j[0], new PathfinderGoalArrowAttack(p, 1.25D, 20, 10.0F));
+                    j[0]++;
                     break;
                 case "遠程（火球）":
                     // p.goalSelector.a(j[0], new GoalPlanFireball(p));

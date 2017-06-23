@@ -1,5 +1,6 @@
 package tw.org.anikaba.monsterplan;
 
+import com.kunyihua.crafte.GlobalVar;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -41,9 +42,11 @@ public class PlanEvent implements Listener {
 
     @EventHandler
     public void onDeath (EntityDeathEvent e) {
-        if (e.getEntity() instanceof Monster && Plan.isCannibal((Monster) e.getEntity())) {
-            String s = Plan.getMonster((Monster) e.getEntity()).getCod();
-            Plan.getPlanConfig(s).getDrops().forEach(i -> e.getDrops().add(i));
+        if (e.getEntity() instanceof Monster && Plan.isCannibal((Monster) e.getEntity()) &&
+                Plan.isKycraft()) {
+            String s = Plan.getPlanMonster((Monster) e.getEntity()).getMpId();
+            Plan.getPlanConfig(s).getDrop().forEach(i -> e.getDrops().add(
+                    GlobalVar.GetItemByKey(s)));
         }
     }
 }
