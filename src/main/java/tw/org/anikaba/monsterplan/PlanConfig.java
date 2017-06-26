@@ -59,6 +59,7 @@ public class PlanConfig {
                 l = new ArrayList<>();
                 l.add("遊走");
                 l.add("瞪你");
+                l.add("亂看");
                 node.getNode("其他設定", "行為特徵").setValue(l);
                 Map<String, Double> m = new HashMap<>();
                 m.put("YELLOW_DUCK_HELMET", 0.01D);

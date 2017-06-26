@@ -1,5 +1,6 @@
 package tw.org.anikaba.monsterplan.v1_12_R1;
 
+import com.google.common.base.Optional;
 import com.kunyihua.crafte.GlobalVar;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
@@ -8,6 +9,8 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import tw.org.anikaba.legend.monster.Plan;
 import tw.org.anikaba.legend.monster.PlanMonster;
 import tw.org.anikaba.monsterplan.PlanConfig;
+
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.UUID;
@@ -15,12 +18,14 @@ import java.util.UUID;
 public abstract class MonsterPlan extends EntityMonster implements PlanMonster, IRangedEntity {
 
     private String id; // 怪物編號
-    private UUID ownerUUID; // 主人
+    protected static final DataWatcherObject<Optional<UUID>> by = DataWatcher.a
+            (MonsterPlan.class, DataWatcherRegistry.m);
 
     MonsterPlan(World world, PlanConfig pc) {
         super(world);
         new MonsterProc(this, pc); // 設定套用
         this.id = pc.getId();
+
     }
     // 設定死掉落的經驗值
     void setDropExp(int i) {
@@ -28,11 +33,11 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
     }
     // 取得主人UUID
     public UUID getOwnerUUID() {
-        return this.ownerUUID;
+        return (UUID) ((Optional) this.datawatcher.get(by)).orNull();
     }
     // 設定主人
-    public void setOwnerUUID(UUID u) {
-        this.ownerUUID = u;
+    public void setOwnerUUID(@Nullable UUID u) {
+        this.datawatcher.set(by, Optional.fromNullable(u));
     }
     // 取得主人EntityLiving
     public EntityLiving getOwner() {
@@ -72,7 +77,6 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
                 e1.printStackTrace();
             }
             jump.setAccessible(true);
-
             if (jump != null && this.onGround) {
                 try {
                     if (jump.getBoolean(passenger)) {
@@ -86,9 +90,13 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
         }
         super.a(f, f1, f2);
     }
+
+    protected void i() {
+        super.i();
+        this.datawatcher.register(by, Optional.absent());
+    }
     // 遠程攻擊
     public void a(EntityLiving e, float f) {
-        
         EntityArrow entityarrow = this.a(f);
         double d0 = e.locX - this.locX;
         double d1 = e.getBoundingBox().b + (double) (e.length / 3.0F) - entityarrow.locY;
@@ -97,7 +105,7 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
         entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.world.getDifficulty().a() * 4));
         this.a(SoundEffects.gW, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.world.addEntity(entityarrow);
-
+        /*
         EntitySnowball entitysnowball = new EntitySnowball(this.world, this);
         double d0 = e.locY + (double) e.getHeadHeight() - 1.100000023841858D;
         double d1 = e.locX - this.locX;
@@ -106,7 +114,7 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
         float f1 = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         entitysnowball.shoot(d1, d2 + (double) f1, d3, 1.6F, 12.0F);
         this.a(SoundEffects.gs, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.world.addEntity(entitysnowball);
+        this.world.addEntity(entitysnowball);*/
     }
 
     private EntityArrow a(float f) {
@@ -117,9 +125,7 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
 
     @Override
     public void p(boolean b) {
-
     }
-
     // 回傳傷害
     public float getAtkDam() {
         return Plan.getPlanConfig(this.id).getAttlist().get(2);

@@ -4,6 +4,7 @@ package tw.org.anikaba.legend.monster;
 import org.bukkit.Location;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PlanMonster {
 
@@ -26,4 +27,6 @@ public interface PlanMonster {
     public List<String> getDrops();
 
     public String getMpId();
+
+    public void setOwnerUUID(UUID uuid);
 }

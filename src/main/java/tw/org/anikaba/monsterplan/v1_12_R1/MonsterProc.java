@@ -13,7 +13,7 @@ class MonsterProc {
         a(mp, pc.getAttlist()); // 基本屬性
         o(mp, pc.getTarget()); // 攻擊對象
         s(mp, pc.getSkill(), f(mp, pc.getFeature())); // 行為、攻擊模式
-        mp.k(0.1F);
+        mp.k(0.1F); // 座騎移動*
         mp.P = 1.0f; // 走路可走1格高低差
     }
 
@@ -42,8 +42,9 @@ class MonsterProc {
         // 經驗值
         float f = l.get(9);
         p.setDropExp((int) f);
-        // 飛行速度***只有1.12
-        p.getAttributeInstance(GenericAttributes.e).setValue(l.get(10));
+        // 飛行速度*只有1.12
+        p.getAttributeMap().b(new AttributeRanged(null, "generic.flyingSpeed",
+                l.get(10), 0.0D, 1024.0D).a("Flying Speed").a(true));
     }
 
     private int f(MonsterPlan p, List<String> l) {

@@ -21,7 +21,7 @@ public class PlanData {
 
     private Map<String, PlanConfig> pcs = new HashMap<>(); // 怪物資料庫
     private Map<String, String> tom = new HashMap<>(); // 怪物出生點資料庫
-    private Boolean k; // 判斷是否使用 K-item
+    private Boolean k = false; // 判斷是否使用 K-item
     private PlanDevice p; // 版本載入器
 
     public PlanData() {
@@ -61,7 +61,7 @@ public class PlanData {
             }
         });
         Plugin plugin = Bukkit.getPluginManager().getPlugin("Kycraft");
-        if (plugin != null) k = false; // Kycraft 啟動判斷
+        if (plugin != null) k = true; // Kycraft 啟動判斷
     }
 
     public Boolean isCannibal(Monster m) {

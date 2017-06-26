@@ -24,9 +24,6 @@ class Monster {
         protected SoundEffect cf() {
             return SoundEffects.gR;
         }
-        SoundEffect p() {
-            return SoundEffects.gX;
-        }
     }
     // 蝙蝠
     static class PlanBat extends MonsterPlan {
@@ -186,9 +183,6 @@ class Monster {
         protected SoundEffect cf() {
             return this.isInWater() ? SoundEffects.aL : SoundEffects.aM;
         }
-        protected SoundEffect dn() {
-            return SoundEffects.aN;
-        }
     }
     // 終界龍
     static class PlanEnderDragon extends MonsterPlan {
@@ -329,19 +323,13 @@ class Monster {
             return new MinecraftKey("馬");
         }
         protected SoundEffect F() {
-            super.F();
             return SoundEffects.cF;
         }
         protected SoundEffect cf() {
-            super.cf();
             return SoundEffects.cJ;
         }
         protected SoundEffect d(DamageSource damagesource) {
-            super.d(damagesource);
             return SoundEffects.cM;
-        }
-        protected SoundEffect do_() {
-            return SoundEffects.cG;
         }
     }
     // 屍殼
@@ -363,9 +351,6 @@ class Monster {
         protected SoundEffect cf() {
             return SoundEffects.cZ;
         }
-        protected SoundEffect dm() {
-            return SoundEffects.db;
-        }
     }
     // 幻術師
     static class PlanIllager extends MonsterPlan {
@@ -385,9 +370,6 @@ class Monster {
         }
         protected SoundEffect cf() {
             return SoundEffects.de;
-        }
-        protected SoundEffect dm() {
-            return SoundEffects.dd;
         }
     }
     // 鐵魔像
@@ -426,9 +408,6 @@ class Monster {
         protected SoundEffect cf() {
             return SoundEffects.dP;
         }
-        protected SoundEffect do_() {
-            return SoundEffects.dN;
-        }
     }
     // 熔岩史萊姆
     static class PlanMagmaCube extends MonsterPlan {
@@ -442,7 +421,6 @@ class Monster {
         protected SoundEffect d(DamageSource damagesource) {
             return SoundEffects.hj;
         }
-
         protected SoundEffect cf() {
             return SoundEffects.hi;
         }
@@ -516,16 +494,14 @@ class Monster {
         }
         @Nullable
         protected MinecraftKey J() {
-            return new MinecraftKey("豬");
+            return new MinecraftKey("鸚鵡");
         }
-        @Nullable
-        public SoundEffect F() {
+        protected SoundEffect F() {
             return SoundEffects.eH;
         }
         protected SoundEffect d(DamageSource damagesource) {
             return SoundEffects.eL;
         }
-
         protected SoundEffect cf() {
             return SoundEffects.eI;
         }
@@ -583,11 +559,9 @@ class Monster {
         protected SoundEffect F() {
             return this.isBaby() ? SoundEffects.fN : SoundEffects.fM;
         }
-
         protected SoundEffect d(DamageSource damagesource) {
             return SoundEffects.fP;
         }
-
         protected SoundEffect cf() {
             return SoundEffects.fO;
         }
@@ -610,9 +584,6 @@ class Monster {
         }
         protected SoundEffect cf() {
             return SoundEffects.fX;
-        }
-        protected SoundEffect dm() {
-            return SoundEffects.fZ;
         }
     }
     // 綿羊
@@ -674,9 +645,6 @@ class Monster {
         protected SoundEffect cf() {
             return SoundEffects.gR;
         }
-        SoundEffect p() {
-            return SoundEffects.gX;
-        }
     }
     // 骷髏馬
     static class PlanSkeletonHorse extends MonsterPlan {
@@ -710,7 +678,6 @@ class Monster {
         protected SoundEffect d(DamageSource damagesource) {
             return SoundEffects.hm;
         }
-
         protected SoundEffect cf() {
             return SoundEffects.hl;
         }
@@ -725,15 +692,12 @@ class Monster {
         protected MinecraftKey J() {
             return new MinecraftKey("雪人");
         }
-        @Nullable
         protected SoundEffect F() {
             return SoundEffects.hq;
         }
-        @Nullable
         protected SoundEffect d(DamageSource damagesource) {
             return SoundEffects.hs;
         }
-        @Nullable
         protected SoundEffect cf() {
             return SoundEffects.hr;
         }
@@ -796,9 +760,6 @@ class Monster {
         }
         protected SoundEffect cf() {
             return SoundEffects.hS;
-        }
-        SoundEffect p() {
-            return SoundEffects.hU;
         }
     }
     // 惱鬼
@@ -920,9 +881,6 @@ class Monster {
         protected SoundEffect cf() {
             return SoundEffects.iI;
         }
-        SoundEffect p() {
-            return SoundEffects.iK;
-        }
     }
     // 狼
     static class PlanWolf extends MonsterPlan {
@@ -963,9 +921,6 @@ class Monster {
         protected SoundEffect cf() {
             return SoundEffects.jm;
         }
-        protected SoundEffect dm() {
-            return SoundEffects.jw;
-        }
     }
     // 殭屍馬
     static class PlanZombieHorse extends MonsterPlan {
@@ -1005,9 +960,6 @@ class Monster {
         }
         public SoundEffect cf() {
             return SoundEffects.jA;
-        }
-        public SoundEffect dm() {
-            return SoundEffects.jC;
         }
     }
     // 人類，無實體

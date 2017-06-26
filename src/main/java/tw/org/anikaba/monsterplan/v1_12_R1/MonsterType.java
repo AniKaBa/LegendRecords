@@ -178,11 +178,6 @@ public enum MonsterType {
 
     public static void register() {
         for (MonsterType e : values()) {
-            try {
-                e.c.getConstructor(World.class);
-            } catch (NoSuchMethodException nosuchmethodexception) {
-                throw new RuntimeException("無效的 class ：" + e.c + " 無建構式 ：" + World.class.getName());
-            }
             if ((e.c.getModifiers() & 1024) == 1024) {
                 throw new RuntimeException("無效的 abstract class ：" + e.c);
             } else {
