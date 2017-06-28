@@ -3,15 +3,17 @@ package tw.org.anikaba.monsterplan.v1_12_R1;
 import net.minecraft.server.v1_12_R1.*;
 import tw.org.anikaba.monsterplan.PlanConfig;
 import tw.org.anikaba.monsterplan.v1_12_R1.goal.FollowOwner;
+import tw.org.anikaba.monsterplan.v1_12_R1.goal.OwnerHurtByTarget;
+import tw.org.anikaba.monsterplan.v1_12_R1.goal.OwnerHurtTarget;
 
 import java.util.List;
 
 class MonsterProc {
 
-    MonsterProc (MonsterPlan mp, PlanConfig pc) {
+    MonsterProc(MonsterPlan mp, PlanConfig pc) {
         mp.setCustomName(pc.getName()); // 基本資料-名稱
         a(mp, pc.getAttlist()); // 基本屬性
-        o(mp, pc.getTarget()); // 攻擊對象
+        g(mp, pc.getAtkFeature(), o(mp, pc.getTarget())); // 攻擊行為、攻擊對象
         s(mp, pc.getSkill(), f(mp, pc.getFeature())); // 行為、攻擊模式
         mp.k(0.1F); // 座騎移動*
         mp.P = 1.0f; // 走路可走1格高低差
@@ -86,7 +88,7 @@ class MonsterProc {
         l.forEach(s -> {
             switch (s) {
                 case "近戰":
-                    p.goalSelector.a(j[0], new PathfinderGoalMeleeAttack(p, 1.0D, false));
+                    p.goalSelector.a(j[0], new PathfinderGoalMeleeAttack(p, 1.0D, true));
                     j[0]++;
                     break;
                 case "遠程（雪球）":
@@ -101,8 +103,8 @@ class MonsterProc {
         });
     }
 
-    private void o(MonsterPlan p, List<String> l) {
-        if (l == null) return;
+    private int o(MonsterPlan p, List<String> l) {
+        if (l == null) return 0;
         final int[] j = {0};
         l.forEach(s -> {
             switch (s) {
@@ -349,6 +351,30 @@ class MonsterProc {
                 case "人類":
                     p.targetSelector.a(j[0], new PathfinderGoalNearestAttackableTarget<>(
                             p, EntityHuman.class, true));
+                    j[0]++;
+                    break;
+                default:
+                    break;
+            }
+        });
+        return j[0];
+    }
+
+    private void g(MonsterPlan p, List<String> l, int i) {
+        if (l == null) return;
+        final int[] j = {i};
+        l.forEach(s -> {
+            switch (s) {
+                case "助攻":
+                    p.targetSelector.a(j[0], new OwnerHurtTarget(p));
+                    j[0]++;
+                    break;
+                case "保護":
+                    p.targetSelector.a(j[0], new OwnerHurtByTarget(p));
+                    j[0]++;
+                    break;
+                case "反擊":
+                    p.targetSelector.a(j[0], new PathfinderGoalHurtByTarget(p, true, new Class[0]));
                     j[0]++;
                     break;
                 default:

@@ -9,7 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import tw.org.anikaba.legend.monster.Plan;
 
 import java.util.Random;
@@ -17,7 +18,7 @@ import java.util.Random;
 public class PlanEvent implements Listener {
 
     @EventHandler
-    public void onJoin (PlayerInteractEntityEvent e) {
+    public void onJoin (PlayerJoinEvent e) {
     }
 
     @EventHandler
@@ -47,6 +48,14 @@ public class PlanEvent implements Listener {
             String s = Plan.getPlanMonster((Monster) e.getEntity()).getMpId();
             Plan.getPlanConfig(s).getDrop().forEach(i -> e.getDrops().add(
                     GlobalVar.GetItemByKey(s)));
+        }
+    }
+
+    @EventHandler
+    public void onInteract (PlayerInteractAtEntityEvent e) {
+        if (e.getRightClicked() instanceof Monster && Plan.isCannibal((Monster) e.getRightClicked
+                ())) {
+            e.getRightClicked().setPassenger(e.getPlayer());
         }
     }
 }

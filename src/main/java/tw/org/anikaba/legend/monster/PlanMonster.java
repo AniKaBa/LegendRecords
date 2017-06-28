@@ -29,4 +29,8 @@ public interface PlanMonster {
     public String getMpId();
 
     public void setOwnerUUID(UUID uuid);
+
+    public UUID getOwnerUUID();
+
+    public void test(Location l);
 }

@@ -47,6 +47,9 @@ public class PlanConfig {
                 node.getNode("戰鬥設定", "攻擊對象").setValue(l);
                 node.getNode("戰鬥設定", "立場").setValue("主動攻擊");
                 l = new ArrayList<>();
+                l.add("反擊");
+                node.getNode("戰鬥設定", "攻擊行為").setValue(l);
+                l = new ArrayList<>();
                 l.add("近戰");
                 node.getNode("戰鬥設定", "技能").setValue(l);
                 l = new ArrayList<>();
@@ -123,6 +126,10 @@ public class PlanConfig {
 
     public List<String> getTarget() {
         return (List<String>) node.getNode("戰鬥設定", "攻擊對象").getValue();
+    }
+
+    public List<String> getAtkFeature() {
+        return (List<String>) node.getNode("戰鬥設定", "攻擊行為").getValue();
     }
 
     public List<String> getFeature() {

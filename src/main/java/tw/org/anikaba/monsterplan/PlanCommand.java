@@ -6,10 +6,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import tw.org.anikaba.legend.monster.Plan;
+import tw.org.anikaba.legend.monster.PlanMonster;
 
 import java.util.Objects;
 
 public class PlanCommand implements CommandExecutor {
+
+    PlanMonster m;
 
     @Override
     public boolean onCommand(CommandSender cs, Command c, String s, String[] ss) {
@@ -29,7 +32,11 @@ public class PlanCommand implements CommandExecutor {
             ((Player) cs).sendRawMessage("目前置入怪物：" + s1);
         }
         if (ss.length == 1 && cs instanceof Player && Objects.equals(ss[0], "t")) {
-            Location l = ((Player) cs).getLocation();
+            m = Plan.spawnMonster(((Player) cs).getLocation(), "ch-001");
+            m.setOwnerUUID(((Player) cs).getUniqueId());
+        }
+        if (ss.length == 1 && cs instanceof Player && Objects.equals(ss[0], "f")) {
+            m.test(((Player) cs).getLocation());
         }
         if (ss.length == 2 && cs instanceof Player && Objects.equals(ss[0], "id")) {
             Location l = ((Player) cs).getLocation();

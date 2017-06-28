@@ -1,6 +1,5 @@
 package tw.org.anikaba.monsterplan.v1_12_R1;
 
-import com.google.common.base.Optional;
 import com.kunyihua.crafte.GlobalVar;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
@@ -10,7 +9,6 @@ import tw.org.anikaba.legend.monster.Plan;
 import tw.org.anikaba.legend.monster.PlanMonster;
 import tw.org.anikaba.monsterplan.PlanConfig;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.UUID;
@@ -18,14 +16,12 @@ import java.util.UUID;
 public abstract class MonsterPlan extends EntityMonster implements PlanMonster, IRangedEntity {
 
     private String id; // 怪物編號
-    protected static final DataWatcherObject<Optional<UUID>> by = DataWatcher.a
-            (MonsterPlan.class, DataWatcherRegistry.m);
+    private UUID ownerUUID; // 主人
 
     MonsterPlan(World world, PlanConfig pc) {
         super(world);
         new MonsterProc(this, pc); // 設定套用
         this.id = pc.getId();
-
     }
     // 設定死掉落的經驗值
     void setDropExp(int i) {
@@ -33,16 +29,16 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
     }
     // 取得主人UUID
     public UUID getOwnerUUID() {
-        return (UUID) ((Optional) this.datawatcher.get(by)).orNull();
+        return this.ownerUUID;
     }
     // 設定主人
-    public void setOwnerUUID(@Nullable UUID u) {
-        this.datawatcher.set(by, Optional.fromNullable(u));
+    public void setOwnerUUID(UUID u) {
+        this.ownerUUID = u;
     }
     // 取得主人EntityLiving
     public EntityLiving getOwner() {
         try {
-            UUID uuid = this.getOwnerUUID();
+            UUID uuid = this.ownerUUID;
             return uuid == null ? null : this.world.b(uuid);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,20 +49,44 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
     public boolean isSitting() {
         return false; // 有空加入動作
     }
+    // 檢查有無主人
+    public boolean isTamed() {
+        return this.ownerUUID != null;
+    }
 
+    public boolean a(EntityLiving entityliving, EntityLiving entityliving1) {
+        if (!(entityliving instanceof EntityCreeper) && !(entityliving instanceof EntityGhast)) {
+            if (entityliving instanceof EntityWolf) {
+                EntityWolf entitywolf = (EntityWolf) entityliving;
+                if (entitywolf.isTamed() && entitywolf.getOwner() == entityliving1) {
+                    return false;
+                }
+            }
+            return entityliving instanceof EntityHuman && entityliving1 instanceof EntityHuman &&
+                    !((EntityHuman) entityliving1).a((EntityHuman) entityliving) ? false : !
+                    (entityliving instanceof EntityHorseAbstract) || !((EntityHorseAbstract)
+                    entityliving).isTamed();
+        } else {
+            return false;
+        }
+    }
+    // 測試動作
+    public void test(Location l) {
+        this.getNavigation().a(l.getX(), l.getY(), l.getZ(), 0.24D);
+    }
+    // 座騎調整
     @Override
     public void a(float f, float f1, float f2) {
         if (this.passengers.size() != 0 && this.passengers.get(0) == getOwner()) {
-            EntityLiving passenger = (EntityLiving) this.passengers.get(0);
-            this.yaw = passenger.yaw;
+            this.yaw = getOwner().yaw;
             this.lastYaw = this.yaw;
-            this.pitch = (passenger.pitch * 0.5F);
+            this.pitch = (getOwner().pitch * 0.5F);
             setYawPitch(this.yaw, this.pitch);
             this.aN = this.yaw;
             this.aP = this.aN;
-            f = passenger.be;
-            f1 = passenger.bh;
-            f2 = passenger.bg;
+            f = getOwner().be;
+            f1 = getOwner().bh;
+            f2 = getOwner().bg;
             if(f2 <= 0.0F) {
                 f2 *= 0.25F;
             }
@@ -79,7 +99,7 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
             jump.setAccessible(true);
             if (jump != null && this.onGround) {
                 try {
-                    if (jump.getBoolean(passenger)) {
+                    if (jump.getBoolean(getOwner())) {
                         double jumpHeight = 0.5D;
                         this.motY = jumpHeight;
                     }
@@ -89,11 +109,6 @@ public abstract class MonsterPlan extends EntityMonster implements PlanMonster, 
             }
         }
         super.a(f, f1, f2);
-    }
-
-    protected void i() {
-        super.i();
-        this.datawatcher.register(by, Optional.absent());
     }
     // 遠程攻擊
     public void a(EntityLiving e, float f) {

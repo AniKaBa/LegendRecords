@@ -31,7 +31,6 @@ public class FollowOwner extends PathfinderGoal {
 
     public boolean a() {
         EntityLiving entityliving = this.d.getOwner();
-
         if (entityliving == null) {
             return false;
         } else if (entityliving instanceof EntityHuman && ((EntityHuman) entityliving)
