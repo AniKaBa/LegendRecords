@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 class RunesDevice {
-
+    // 道具反序列化
     ItemStack deserialize(HashMap<String, Object> m){
         Map<String, Object> c = (Map) m.clone();
         c.put("meta", null);
@@ -172,7 +172,7 @@ class RunesDevice {
         }
         return ItemStack.deserialize(m);
     }
-
+    // 道具序列化
     Map<String, Object> serialize(ItemStack stack){
         System.out.print(stack.serialize());
         Map<String, Object> m = stack.serialize();
@@ -242,7 +242,7 @@ class RunesDevice {
                         });
                         m2.put(s, lfe);
                         break;
-                    case "patterns":
+                    case "patterns": // 旗幟
                         List<Map<String, Object>> l2 = new ArrayList<>();
                         ((List<Pattern>) o).forEach(p -> l2.add(p.serialize()));
                         m2.put(s, l2);

@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Monster;
-import tw.org.anikaba.Record.monster.PlanData;
+import tw.org.anikaba.record.monster.PlanData;
 import tw.org.anikaba.legendrecords.LegendRecords;
 import tw.org.anikaba.monsterplan.PlanConfig;
 

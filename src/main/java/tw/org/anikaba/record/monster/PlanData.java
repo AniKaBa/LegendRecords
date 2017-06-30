@@ -1,4 +1,4 @@
-package tw.org.anikaba.Record.monster;
+package tw.org.anikaba.record.monster;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;

@@ -1,7 +1,7 @@
 package tw.org.anikaba.legendrecords;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import tw.org.anikaba.Record.monster.PlanData;
+import tw.org.anikaba.record.monster.PlanData;
 
 public class LegendRecords extends JavaPlugin {
 

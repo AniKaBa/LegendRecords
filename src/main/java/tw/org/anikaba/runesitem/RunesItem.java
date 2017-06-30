@@ -25,8 +25,8 @@ public class RunesItem extends RunesDevice implements Runes {
         node = loader.createEmptyNode(ConfigurationOptions.defaults());
         try {
             if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                save();
+                file.getParentFile().mkdirs(); // 建立目錄
+                save(); // 建立空文件
             } else {
                 node = loader.load();
             }
@@ -35,25 +35,25 @@ public class RunesItem extends RunesDevice implements Runes {
             e.printStackTrace();
         }
     }
-
+    // 紀錄道具轉換型態
     private void setItemData(String cod, Map<String, Object> serialize) {
         node.getNode(s, cod).setValue(serialize);
     }
-
+    // 取得道具轉換型態
     private HashMap getItemData(String cod) {
         return (HashMap) node.getNode(s, cod).getValue();
     }
-
+    // 取得道具
     @Override
     public ItemStack getItem(String cod) {
         return deserialize(getItemData(cod));
     }
-
+    // 紀錄道具
     @Override
     public void setItem(String cod, ItemStack stack) {
         setItemData(cod, serialize(stack));
     }
-
+    // 資料儲存
     public void save() {
         try {
             loader.save(node);
