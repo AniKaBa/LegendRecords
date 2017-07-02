@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.server.v1_12_R1.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -109,9 +110,9 @@ public class RunesMeta implements ItemMeta, Repairable {
                     .put(RunesBlockState.class, "TILE_ENTITY")
                     .put(RunesBook.class, "BOOK")
                     .put(RunesBookSigned.class, "BOOK_SIGNED")
-                    .put(CraftMetaSkull.class, "SKULL")
-                    .put(CraftMetaLeatherArmor.class, "LEATHER_ARMOR")
-                    .put(CraftMetaMap.class, "MAP")
+                    .put(RunesSkull.class, "SKULL")
+                    .put(RunesLeatherArmor.class, "LEATHER_ARMOR")
+                    .put(RunesMap.class, "MAP")
                     .put(CraftMetaPotion.class, "POTION")
                     .put(CraftMetaSpawnEgg.class, "SPAWN_EGG")
                     .put(CraftMetaEnchantedBook.class, "ENCHANTED")
@@ -329,7 +330,8 @@ public class RunesMeta implements ItemMeta, Repairable {
                 {
                     continue;
                 }
-                if ( !( nbttagcompound.get( ATTRIBUTES_IDENTIFIER.NBT ) instanceof NBTTagString ) || !CraftItemFactory.KNOWN_NBT_ATTRIBUTE_NAMES.contains( nbttagcompound.getString( ATTRIBUTES_IDENTIFIER.NBT ) ) )
+                if ( !( nbttagcompound.get( ATTRIBUTES_IDENTIFIER.NBT ) instanceof NBTTagString )
+                        || !c.contains( nbttagcompound.getString( ATTRIBUTES_IDENTIFIER.NBT ) ) )
                 {
                     continue;
                 }
@@ -424,7 +426,8 @@ public class RunesMeta implements ItemMeta, Repairable {
                 if (!nbttagcompound.hasKeyOfType(ATTRIBUTES_UUID_LOW.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
                     continue;
                 }
-                if (!(nbttagcompound.get(ATTRIBUTES_IDENTIFIER.NBT) instanceof NBTTagString) || !CraftItemFactory.KNOWN_NBT_ATTRIBUTE_NAMES.contains(nbttagcompound.getString(ATTRIBUTES_IDENTIFIER.NBT))) {
+                if (!(nbttagcompound.get(ATTRIBUTES_IDENTIFIER.NBT) instanceof NBTTagString) ||
+                        !c.contains(nbttagcompound.getString(ATTRIBUTES_IDENTIFIER.NBT))) {
                     continue;
                 }
                 if (!(nbttagcompound.get(ATTRIBUTES_NAME.NBT) instanceof NBTTagString) || nbttagcompound.getString(ATTRIBUTES_NAME.NBT).isEmpty()) {
@@ -1003,11 +1006,11 @@ public class RunesMeta implements ItemMeta, Repairable {
                         ENCHANTMENTS.NBT,
                         HIDEFLAGS.NBT,
                         UNBREAKABLE.NBT,
-                        CraftMetaMap.MAP_SCALING.NBT,
+                        RunesMap.MAP_SCALING.NBT,
                         CraftMetaPotion.POTION_EFFECTS.NBT,
                         CraftMetaPotion.DEFAULT_POTION.NBT,
-                        CraftMetaSkull.SKULL_OWNER.NBT,
-                        CraftMetaSkull.SKULL_PROFILE.NBT,
+                        RunesSkull.SKULL_OWNER.NBT,
+                        RunesSkull.SKULL_PROFILE.NBT,
                         CraftMetaSpawnEgg.ENTITY_TAG.NBT,
                         RunesBlockState.BLOCK_ENTITY_TAG.NBT,
                         RunesBook.BOOK_TITLE.NBT,
@@ -1048,4 +1051,19 @@ public class RunesMeta implements ItemMeta, Repairable {
         return spigot;
     }
     // Spigot end
+
+    public Collection<String> c = ImmutableSet.<String>builder()
+            .add("generic.armor")
+            .add("generic.armorToughness")
+            .add("generic.attackDamage")
+            .add("generic.followRange")
+            .add("generic.knockbackResistance")
+            .add("generic.maxHealth")
+            .add("generic.movementSpeed")
+            .add("generic.flyingSpeed")
+            .add("generic.attackSpeed")
+            .add("generic.luck")
+            .add("horse.jumpStrength")
+            .add("zombie.spawnReinforcements")
+            .build();
 }
