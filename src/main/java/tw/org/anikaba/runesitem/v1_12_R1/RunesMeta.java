@@ -113,12 +113,12 @@ public class RunesMeta implements ItemMeta, Repairable {
                     .put(RunesSkull.class, "SKULL")
                     .put(RunesLeatherArmor.class, "LEATHER_ARMOR")
                     .put(RunesMap.class, "MAP")
-                    .put(CraftMetaPotion.class, "POTION")
-                    .put(CraftMetaSpawnEgg.class, "SPAWN_EGG")
-                    .put(CraftMetaEnchantedBook.class, "ENCHANTED")
-                    .put(CraftMetaFirework.class, "FIREWORK")
-                    .put(CraftMetaCharge.class, "FIREWORK_EFFECT")
-                    .put(CraftMetaKnowledgeBook.class, "KNOWLEDGE_BOOK")
+                    .put(RunesPotion.class, "POTION")
+                    .put(RunesSpawnEgg.class, "SPAWN_EGG")
+                    .put(RunesEnchantedBook.class, "ENCHANTED")
+                    .put(RunesFirework.class, "FIREWORK")
+                    .put(RunesCharge.class, "FIREWORK_EFFECT")
+                    .put(RunesKnowledgeBook.class, "KNOWLEDGE_BOOK")
                     .put(RunesMeta.class, "UNSPECIFIC")
                     .build();
 
@@ -1007,22 +1007,22 @@ public class RunesMeta implements ItemMeta, Repairable {
                         HIDEFLAGS.NBT,
                         UNBREAKABLE.NBT,
                         RunesMap.MAP_SCALING.NBT,
-                        CraftMetaPotion.POTION_EFFECTS.NBT,
-                        CraftMetaPotion.DEFAULT_POTION.NBT,
+                        RunesPotion.POTION_EFFECTS.NBT,
+                        RunesPotion.DEFAULT_POTION.NBT,
                         RunesSkull.SKULL_OWNER.NBT,
                         RunesSkull.SKULL_PROFILE.NBT,
-                        CraftMetaSpawnEgg.ENTITY_TAG.NBT,
+                        RunesSpawnEgg.ENTITY_TAG.NBT,
                         RunesBlockState.BLOCK_ENTITY_TAG.NBT,
                         RunesBook.BOOK_TITLE.NBT,
                         RunesBook.BOOK_AUTHOR.NBT,
                         RunesBook.BOOK_PAGES.NBT,
                         RunesBook.RESOLVED.NBT,
                         RunesBook.GENERATION.NBT,
-                        CraftMetaFirework.FIREWORKS.NBT,
-                        CraftMetaEnchantedBook.STORED_ENCHANTMENTS.NBT,
-                        CraftMetaCharge.EXPLOSION.NBT,
+                        RunesFirework.FIREWORKS.NBT,
+                        RunesEnchantedBook.STORED_ENCHANTMENTS.NBT,
+                        RunesCharge.EXPLOSION.NBT,
                         RunesBlockState.BLOCK_ENTITY_TAG.NBT,
-                        CraftMetaKnowledgeBook.BOOK_RECIPES.NBT
+                        RunesKnowledgeBook.BOOK_RECIPES.NBT
                 ));
             }
             return HANDLED_TAGS;
