@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import tw.org.anikaba.record.monster.PlanData;
 import tw.org.anikaba.runesitem.RunesDevice;
@@ -22,8 +22,9 @@ public class LegendRecords extends JavaPlugin {
     public void onEnable() {
         pd = new PlanData();
         // test
-        ItemStack itemStack = new ItemStack(Material.APPLE);
-        ItemMeta itemMeta = itemStack.getItemMeta();
+        ItemStack itemStack = new ItemStack(Material.MAP);
+        MapMeta itemMeta = (MapMeta) itemStack.getItemMeta();
+        itemMeta.setScaling(true);
         itemMeta.setUnbreakable(true);
         List<String> l = new ArrayList<>();
         l.add("123");

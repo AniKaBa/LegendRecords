@@ -3,6 +3,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.block.banner.Pattern;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftMetaBlockState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
@@ -16,13 +17,14 @@ import java.util.Map;
 public class RunesDevice {
     // 道具反序列化
     public static ItemStack deserialize(HashMap<String, Object> m){
-        Map<String, Object> c = (Map) m.clone();
+        /*Map<String, Object> c = (Map) m.clone();
         c.put("meta", null);
-        ItemMeta meta = ItemStack.deserialize(c).getItemMeta();
+        ItemMeta meta = ItemStack.deserialize(c).getItemMeta();*/
+        Map<String, Object> d = new HashMap<>();
         if(m.containsKey("meta")){
             ((Map<String, Object>) m.get("meta")).forEach((s, o) ->{
                 switch (s) {
-                    case "ItemFlags":
+                    /*case "ItemFlags":
                         ((List<String>) o).forEach((s1) -> meta.addItemFlags(ItemFlag
                                 .valueOf(s1)));
                         break;
@@ -34,32 +36,38 @@ public class RunesDevice {
                         break;
                     case "base-color":
                         ((BannerMeta) meta).setBaseColor(DyeColor.valueOf((String) o));
-                        break;
+                        break;*/
                     case "color":
-                        ((LeatherArmorMeta) meta).setColor(Color.deserialize((Map<String,
-                                Object>) o));
+                        /*((LeatherArmorMeta) meta).setColor(Color.deserialize((Map<String,
+                            Object>) o));*/
+                        d.put(s, Color.deserialize((Map<String, Object>) o));
                         break;
                     case "custom-color":
-                        ((PotionMeta) meta).setColor(Color.deserialize((Map<String,
-                                Object>) o));
+                        /*((PotionMeta) meta).setColor(Color.deserialize((Map<String, Object>) o)
+                        );*/
+                        d.put(s, Color.deserialize((Map<String, Object>) o));
                         break;
                     case "custom-effects":
-                        ((List<Map<String, Object>>) o).forEach(map -> ((PotionMeta) meta)
-                                .addCustomEffect(new PotionEffect(map), true));
+                        /*((List<Map<String, Object>>) o).forEach(map -> ((PotionMeta) meta)
+                                .addCustomEffect(new PotionEffect(map), true));*/
+                        List<PotionEffect> l = new ArrayList<>();
+                        ((List<Map<String, Object>>) o).forEach(map -> l.add(new PotionEffect(map)));
+                        d.put(s, l);
                         break;
-                    case "display-loc-name":
+                    /*case "display-loc-name":
                         ((MapMeta) meta).setLocationName((String) o);
-                        break;
+                        break;*/
                     case "display-map-color":
-                        ((MapMeta) meta).setColor(Color.deserialize((Map<String, Object>) o));
+                        /*((MapMeta) meta).setColor(Color.deserialize((Map<String, Object>) o));*/
+                        d.put(s, Color.deserialize((Map<String, Object>) o));
                         break;
-                    case "display-name":
+                    /*case "display-name":
                         meta.setDisplayName((String) o);
                         break;
                     case "enchants":
                         ((Map<String, Integer>) o).forEach((s1, i) -> meta.addEnchant(Enchantment
                                 .getByName(s1), i, true));
-                        break;
+                        break;*/
                     case "firework-effect":
                         FireworkEffect.Builder b = FireworkEffect.builder();
                         ((Map<String, Object>) o).forEach(((s1, o1) -> {
@@ -83,9 +91,11 @@ public class RunesDevice {
                                     break;
                             }
                         }));
-                        ((FireworkEffectMeta) meta).setEffect(b.build());
+                        /*((FireworkEffectMeta) meta).setEffect(b.build());*/
+                        d.put(s, b.build());
                         break;
                     case "firework-effects":
+                        List<FireworkEffect> l2 = new ArrayList<>();
                         ((List<Map<String, Object>>) o).forEach(map -> {
                             FireworkEffect.Builder b1 = FireworkEffect.builder();
                             map.forEach(((s1, o1) -> {
@@ -109,10 +119,12 @@ public class RunesDevice {
                                         break;
                                 }
                             }));
-                            ((FireworkMeta) meta).addEffect(b1.build());
+                            /*((FireworkMeta) meta).addEffect(b1.build());*/
+                            l2.add(b1.build());
                         });
+                        d.put(s, l2);
                         break;
-                    case "generation":
+                    /*case "generation":
                         switch ((int) o) {
                             case 0:
                                 ((BookMeta) meta).setGeneration(BookMeta.Generation.ORIGINAL);
@@ -140,12 +152,15 @@ public class RunesDevice {
                         break;
                     case "pages":
                         ((BookMeta) meta).setPages((List) o);
-                        break;
+                        break;*/
                     case "patterns":
-                        ((List<Map>) o).forEach(o1 -> ((BannerMeta) meta).addPattern(new Pattern
-                                (o1)));
+                        List<Pattern> l3 = new ArrayList<>();
+                        /*((List<Map>) o).forEach(o1 -> ((BannerMeta) meta).addPattern(new Pattern
+                                (o1)));*/
+                        ((List<Map>) o).forEach(o1 -> l3.add(new Pattern(o1)));
+                        d.put(s, l3);
                         break;
-                    case "power":
+                    /*case "power":
                         ((FireworkMeta) meta).setPower((Integer) o);
                         break;
                     case "scaling":
@@ -160,18 +175,23 @@ public class RunesDevice {
                         break;
                     case "title":
                         ((BookMeta) meta).setTitle((String) o);
-                        break;
+                        break;*/
                     default:
+                        d.put(s, o);
                         break;
                 }
             });
-            m.put("meta", meta);
+            /*m.put("meta", meta);*/
+            try {
+                m.put("meta", CraftMetaBlockState.SerializableMeta.deserialize(d));
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         }
         return ItemStack.deserialize(m);
     }
     // 道具序列化
     public static Map<String, Object> serialize(ItemStack stack){
-        System.out.print(stack.serialize());
         Map<String, Object> m = stack.serialize();
         Map<String, Object> m2 = new HashMap<>();
         if(m.containsKey("meta")) {
