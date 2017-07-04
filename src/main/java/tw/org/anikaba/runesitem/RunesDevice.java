@@ -1,5 +1,4 @@
 package tw.org.anikaba.runesitem;
-
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
@@ -10,15 +9,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionEffect;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-class RunesDevice {
+public class RunesDevice {
     // 道具反序列化
-    ItemStack deserialize(HashMap<String, Object> m){
+    public static ItemStack deserialize(HashMap<String, Object> m){
         Map<String, Object> c = (Map) m.clone();
         c.put("meta", null);
         ItemMeta meta = ItemStack.deserialize(c).getItemMeta();
@@ -173,7 +170,7 @@ class RunesDevice {
         return ItemStack.deserialize(m);
     }
     // 道具序列化
-    Map<String, Object> serialize(ItemStack stack){
+    public static Map<String, Object> serialize(ItemStack stack){
         System.out.print(stack.serialize());
         Map<String, Object> m = stack.serialize();
         Map<String, Object> m2 = new HashMap<>();
