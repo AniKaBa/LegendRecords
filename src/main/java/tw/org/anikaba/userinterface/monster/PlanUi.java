@@ -11,6 +11,5 @@ public class PlanUi {
     private JRadioButton 關閉怪物計畫書RadioButton;
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }
